@@ -114,6 +114,7 @@ cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | sudo pacman --needed --ask 4 
 git clone https://aur.archlinux.org/yay.git ~/yay
 cd ~/yay
 makepkg -si --needed --noconfirm
+cd ..
 rm -rf ~/yay
 
 # Let's install AUR packages from aur.pkgs file.
@@ -125,7 +126,7 @@ cat aur.pkgs | grep -v -e '^$' | grep -v "#" | yay --needed --noconfirm -Sy -
 echo "########################################################"
 echo "## Installing Lunar Vim. This may take a few minutes. ##"
 echo "########################################################"
-sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
+sudo pacman --needed --ask 4 -Sy neovim nodejs npm python-pip cargo
 export npm_config_prefix="$HOME/.local"
 bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 #+end_src
