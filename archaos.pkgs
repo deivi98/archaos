@@ -1,1 +1,142 @@
-wget
+# Boot
+# linux
+# linux-headers
+# linux-zen
+# linuz-zen-headers
+
+# Package managing
+pacman-contrib
+
+# WM
+qtile
+python-dbus-next
+python-psutil
+rofi
+rofi-emoji
+rofi-calc
+papirus-icon-theme
+xscreensaver
+feh
+dunst
+
+# Terminal emulator
+alacritty
+
+# Shell
+zsh
+zsh-syntax-highlighting
+zsh-autosuggestions
+zsh-history-substring-search
+exa
+bat
+ripgrep
+fd
+starship
+neofetch
+screen
+tmux
+btop
+
+# File explorer
+ranger
+ffmpegthumbnailer
+pcmanfm
+
+# Editor
+# neovim
+# nodejs
+# npm
+# cargo
+# lvim
+
+# Browser
+chromium
+
+## Multimedia
+
+# Video
+mpv
+youtube-dl
+streamlink
+
+# Music
+spotifyd
+
+# PDF
+zathura
+zathura-pdf-poppler
+
+## Appearance
+
+# Graphical interfaces
+lxappearance
+qt5ct
+
+# Fonts
+ttf-font-awesome
+
+## User
+
+# Cloud
+# nextcloud-client
+
+# Apps
+# telegram-desktop
+# discord
+# transmission-gtk
+# virtualbox
+# virtualbox-host-dkms
+flameshot
+
+# Utils
+os-prober
+base-devel
+python-setuptools
+gnome-keyring
+openssh
+xbindkeys
+xcape
+# docker
+# docker-compose
+
+# Essential
+git
+grub
+unzip
+zip
+unrar
+
+# Gamming
+# steam
+
+## Hardware
+
+# Sensors
+cpupower
+lm_sensors
+
+# Graphics
+xorg
+xorg-xinit
+# nvidia
+# nvidia-utils
+# lib32-nvidia-utils
+# nvidia-settings
+# redshift
+
+# Network
+networkmanager
+
+# Sound
+alsa-utils
+pulseaudio
+pavucontrol
+
+# Bluetooth
+# bluez
+# bluez-utils
+
+# Peripherals
+# libratbag
+# piper
+# imwheel

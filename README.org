@@ -104,8 +104,15 @@ All packages listed are either in the standard Arch repos. All of these will be 
 =NOTE:= The '--ask 4' option is an undocumented option for pacman that can be found in pacman's source code (in pacman's alpm.h).  Adding this flags means that all questions about removing packages that are conflicts will automatically be answered YES.
 
 #+begin_src bash
+
+sudo pacman --needed --ask 4 -Sy grep cat
+
 # Let's install each package listed in the archaos.pkgs file.
-sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
+# sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
+cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | sudo pacman --needed --ask 4 -Sy -
+
+# Let's install AUR packages from aur.pkgs file.
+cat aur.pkgs | grep -v -e '^$' | grep -v "#" | yay --needed --noconfirm -Sy -
 #+end_src
 
 * Copy configs over from /etc/archaos into $HOME
