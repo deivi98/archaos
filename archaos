@@ -37,25 +37,26 @@ lastchance || error "User choose to exit."
 # Let's install each package listed in the archaos.pkgs file.
 sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
 
-echo "#####################################################"
+echo "####################################################"
 echo "## Copying ARCHAOS configuration files into \$HOME ##"
-echo "#####################################################"
+echo "####################################################"
 [ ! -d ~/.config ] && mkdir ~/.config
 [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
-git clone https://github.com/deivi98/dotfiles ~/dotfiles
-cd ~/dotfiles && cp -Rf . ~ && cd -
+[ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
+[ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
+rm -rf ~/.git
+# rm -rf ~/dotfiles
 
-# Change all scripts in .local/bin to be executable.
-find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
+# Change all scripts in .local/bin and .config/scripts to be executable.
+[ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
+[ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
 
-# echo "#########################################################"
-# echo "## Installing Doom Emacs. This may take a few minutes. ##"
-# echo "#########################################################"
-# [ -d ~/.emacs.d ] && mv ~/.emacs.d ~/.emacs.d.bak.$(date +"%Y%m%d_%H%M%S")
-# [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak.$(date +"%Y%m%d_%H%M%S")
-# git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-# ~/.emacs.d/bin/doom install
-# ~/.emacs.d/bin/doom sync
+echo "########################################################"
+echo "## Installing Lunar Vim. This may take a few minutes. ##"
+echo "########################################################"
+sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
+export npm_config_prefix="$HOME/.local"
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 echo "#################################"
 echo "## ARCHAOS has been installed! ##"

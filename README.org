@@ -110,9 +110,9 @@ sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
 
 * Copy configs over from /etc/archaos into $HOME
 #+begin_src bash
-echo "#####################################################"
+echo "####################################################"
 echo "## Copying ARCHAOS configuration files into \$HOME ##"
-echo "#####################################################"
+echo "####################################################"
 [ ! -d ~/.config ] && mkdir ~/.config
 [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
 [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
@@ -122,20 +122,19 @@ rm -rf ~/.git
 #+end_src
 
 #+begin_src bash
-# Change all scripts in .local/bin to be executable.
-[ -d $HOME/.local/bin ] find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
+# Change all scripts in .local/bin and .config/scripts to be executable.
+[ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
+[ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
 #+end_src
 
 * Install Lunar Vim
 #+begin_src bash
-# echo "#########################################################"
-# echo "## Installing Doom Emacs. This may take a few minutes. ##"
-# echo "#########################################################"
-# [ -d ~/.emacs.d ] && mv ~/.emacs.d ~/.emacs.d.bak.$(date +"%Y%m%d_%H%M%S")
-# [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak.$(date +"%Y%m%d_%H%M%S")
-# git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-# ~/.emacs.d/bin/doom install
-# ~/.emacs.d/bin/doom sync
+echo "########################################################"
+echo "## Installing Lunar Vim. This may take a few minutes. ##"
+echo "########################################################"
+sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
+export npm_config_prefix="$HOME/.local"
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 #+end_src
 
 * Message stating that the installation is complete!
