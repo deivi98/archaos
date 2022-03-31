@@ -115,13 +115,15 @@ echo "## Copying ARCHAOS configuration files into \$HOME ##"
 echo "#####################################################"
 [ ! -d ~/.config ] && mkdir ~/.config
 [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
-git clone https://github.com/deivi98/dotfiles ~/dotfiles
-cd ~/dotfiles && cp -Rf . ~ && cd -
+[ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
+[ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
+rm -rf ~/.git
+# rm -rf ~/dotfiles
 #+end_src
 
 #+begin_src bash
 # Change all scripts in .local/bin to be executable.
-find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
+[ -d $HOME/.local/bin ] find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
 #+end_src
 
 * Install Lunar Vim
