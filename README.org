@@ -15,8 +15,8 @@
 - [[#welcome-message][Welcome message]]
 - [[#asking-user-to-confirm-choice-to-install-archaos][Asking user to confirm choice to install ARCHAOS.]]
 - [[#install-the-packages-from-repositories][Install the packages from repositories]]
-- [[#copy-configs-over-from-etcarchaos-into-home][Copy configs over from /etc/archaos into $HOME]]
 - [[#install-lunar-vim][Install Lunar Vim]]
+- [[#copy-configs-over-from-etcarchaos-into-home][Copy configs over from /etc/archaos into $HOME]]
 - [[#message-stating-that-the-installation-is-complete][Message stating that the installation is complete!]]
 
 * About ARCHAOS
@@ -111,8 +111,23 @@ sudo pacman --needed --ask 4 -Sy grep cat
 # sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
 cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | sudo pacman --needed --ask 4 -Sy -
 
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+makepkg -si --needed --noconfirm
+rm -rf ~/yay
+
 # Let's install AUR packages from aur.pkgs file.
 cat aur.pkgs | grep -v -e '^$' | grep -v "#" | yay --needed --noconfirm -Sy -
+#+end_src
+
+* Install Lunar Vim
+#+begin_src bash
+echo "########################################################"
+echo "## Installing Lunar Vim. This may take a few minutes. ##"
+echo "########################################################"
+sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
+export npm_config_prefix="$HOME/.local"
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 #+end_src
 
 * Copy configs over from /etc/archaos into $HOME
@@ -132,16 +147,6 @@ rm -rf ~/dotfiles
 # Change all scripts in .local/bin and .config/scripts to be executable.
 [ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
 [ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
-#+end_src
-
-* Install Lunar Vim
-#+begin_src bash
-echo "########################################################"
-echo "## Installing Lunar Vim. This may take a few minutes. ##"
-echo "########################################################"
-sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
-export npm_config_prefix="$HOME/.local"
-bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 #+end_src
 
 * Message stating that the installation is complete!

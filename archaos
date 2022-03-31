@@ -34,8 +34,27 @@ lastchance() { \
 
 lastchance || error "User choose to exit."
 
+
+sudo pacman --needed --ask 4 -Sy grep cat
+
 # Let's install each package listed in the archaos.pkgs file.
-sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
+# sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
+cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | sudo pacman --needed --ask 4 -Sy -
+
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+makepkg -si --needed --noconfirm
+rm -rf ~/yay
+
+# Let's install AUR packages from aur.pkgs file.
+cat aur.pkgs | grep -v -e '^$' | grep -v "#" | yay --needed --noconfirm -Sy -
+
+echo "########################################################"
+echo "## Installing Lunar Vim. This may take a few minutes. ##"
+echo "########################################################"
+sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
+export npm_config_prefix="$HOME/.local"
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 echo "####################################################"
 echo "## Copying ARCHAOS configuration files into \$HOME ##"
@@ -45,18 +64,11 @@ echo "####################################################"
 [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
 [ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
 rm -rf ~/.git
-# rm -rf ~/dotfiles
+rm -rf ~/dotfiles
 
 # Change all scripts in .local/bin and .config/scripts to be executable.
 [ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
 [ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
-
-echo "########################################################"
-echo "## Installing Lunar Vim. This may take a few minutes. ##"
-echo "########################################################"
-sudo pacman --needed --ask 4 -Sy neovim nodejs npm cargo
-export npm_config_prefix="$HOME/.local"
-bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 echo "#################################"
 echo "## ARCHAOS has been installed! ##"
