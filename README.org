@@ -118,7 +118,7 @@ echo "####################################################"
 [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
 [ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
 rm -rf ~/.git
-# rm -rf ~/dotfiles
+rm -rf ~/dotfiles
 #+end_src
 
 #+begin_src bash
