@@ -72,6 +72,19 @@ zathura-pdf-poppler
 lxappearance
 qt5ct
 
+# Themes
+adapta-gtk-theme
+adwaita-icon-theme
+arc-gtk-theme
+arc-solid-gtk-theme
+deepin-gtk-theme
+gnome-themes-extra
+hicolor-icon-theme
+mate-themes
+materia-gtk-theme
+papirus-icon-theme
+breeze-gtk
+
 # Fonts
 ttf-font-awesome
 
