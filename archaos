@@ -1,4 +1,12 @@
+
 #!/usr/bin/env bash
+#  ____           _           _ 
+# |  _ \    ___  (_) __   __ (_)	David González (deivi)
+# | | | |  / _ \ | | \ \ / / | |  github.com/deivi98
+# | |_| | |  __/ | |  \ V /  | |  
+# |____/   \___| |_|   \_/   |_|
+#
+
 
 if [ "$(id -u)" = 0 ]; then
     echo "##################################################################"
@@ -8,6 +16,7 @@ if [ "$(id -u)" = 0 ]; then
     echo "##################################################################"
     exit 1
 fi
+
 
 error() { \
     clear; printf "ERROR:\\n%s\\n" "$1" >&2; exit 1;
@@ -38,8 +47,7 @@ lastchance || error "User choose to exit."
 sudo pacman --needed --ask 4 -Sy grep cat
 
 # Let's install each package listed in the archaos.pkgs file.
-# sudo pacman --needed --ask 4 -Sy - < archaos.pkgs
-cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | sudo pacman --needed --ask 4 -Sy -
+cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep -v "AUR/" | sudo pacman --needed --ask 4 -Sy -
 
 git clone https://aur.archlinux.org/yay.git ~/yay
 cd ~/yay
@@ -47,8 +55,8 @@ makepkg -si --needed --noconfirm
 cd ..
 rm -rf ~/yay
 
-# Let's install AUR packages from aur.pkgs file.
-cat aur.pkgs | grep -v -e '^$' | grep -v "#" | yay --needed --noconfirm -Sy -
+# Let's install AUR packages from archaos.pkgs file.
+cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep AUR/ | sed --expression='s/AUR\///g' | yay --needed --noconfirm -Sy -
 
 echo "########################################################"
 echo "## Installing Lunar Vim. This may take a few minutes. ##"

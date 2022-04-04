@@ -1,11 +1,19 @@
 #!/bin/sh
 
-# Get output file as argument or fall back to `archos`.
+# Get output file as argument or fall back to `archaos`.
 of="$1"
 [ -z "$1" ] && of='archaos'
 
-# Extract the shebang from README.org and write it to new file.
-grep ':shebang' README.org | cut -d \" -f2 > "$of"
+# Write shebang in script
+echo "
+#!/usr/bin/env bash
+#  ____           _           _ 
+# |  _ \    ___  (_) __   __ (_)	David González (deivi)
+# | | | |  / _ \ | | \ \ / / | |  github.com/deivi98
+# | |_| | |  __/ | |  \ V /  | |  
+# |____/   \___| |_|   \_/   |_|
+#
+" > "$of"
 
 # Extract all '#+begin/end_src' blocks from README.org and append them to file;
 # Remove the last line of whitespace since emacs does that too.

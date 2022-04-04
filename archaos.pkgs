@@ -1,8 +1,8 @@
 # Boot
-# linux
-# linux-headers
-# linux-zen
-# linuz-zen-headers
+linux
+linux-headers
+linux-zen
+linuz-zen-headers
 
 # Package managing
 pacman-contrib
@@ -18,6 +18,7 @@ papirus-icon-theme
 xscreensaver
 feh
 dunst
+AUR/picom-ibhagwan-git
 
 # Terminal emulator
 alacritty
@@ -36,6 +37,7 @@ neofetch
 screen
 tmux
 btop
+AUR/bash-zsh-insulter
 
 # File explorer
 ranger
@@ -58,9 +60,11 @@ chromium
 mpv
 youtube-dl
 streamlink
+AUR/ytfzf
 
 # Music
 spotifyd
+AUR/spotify-tui
 
 # PDF
 zathura
@@ -87,6 +91,9 @@ breeze-gtk
 
 # Fonts
 ttf-font-awesome
+AUR/ttf-font-awesome-4
+AUR/ttf-iosevka-fixed-ss18
+# AUR/nerd-fonts-complete
 
 ## User
 
@@ -100,6 +107,10 @@ ttf-font-awesome
 # virtualbox
 # virtualbox-host-dkms
 flameshot
+# AUR/mailspring
+# AUR/plex-media-player
+# AUR/srain
+# AUR/marktext-bin
 
 # Utils
 os-prober
@@ -119,8 +130,11 @@ unzip
 zip
 unrar
 
-# Gamming
+# Gaming
 # steam
+# AUR/proton
+# AUR/minecraft-launcher
+# AUR/spigotm
 
 ## Hardware
 
@@ -144,6 +158,8 @@ networkmanager
 alsa-utils
 pulseaudio
 pavucontrol
+# AUR/headsetcontrol
+# AUR/noise-supression-for-voice
 
 # Bluetooth
 # bluez
@@ -152,4 +168,3 @@ pavucontrol
 # Peripherals
 # libratbag
 # piper
-# imwheel
