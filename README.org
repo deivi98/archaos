@@ -7,8 +7,6 @@
 * TABLE OF CONTENTS :toc:
 - [[#about-archaos][About ARCHAOS]]
 - [[#installing-archaos][Installing ARCHAOS]]
-  - [[#installation-instructions][Installation instructions]]
-- [[#updating-archaos][Updating ARCHAOS]]
 - [[#check-that-user-is-not-root][Check that user is NOT root!]]
 - [[#a-function-for-errors][A function for errors]]
 - [[#sync-the-repos-and-install-dialog][Sync the repos and install 'dialog']]
@@ -27,21 +25,12 @@
 ARCHAOS is my own post-installation script. It deploys my WMs and configs. ARCHAOS should work on Arch Linux or any Arch-based distribution. ARCHAOS is only for x86_64 architecture and will not work on ARM devices such as the Raspberry Pi.
 
 * Installing ARCHAOS
-** Installation instructions
 To install ARCHAOS, you need to clone this repository and run the ~archaos~ script.
 #+begin_example
 git clone https://github.com/deivi98/archaos
 cd archaos/
 ./archaos
 #+end_example
-
-* Updating ARCHAOS
-ARCHAOS is updated in the standard way as all Arch-based Linux distros:
-#+begin_example
-sudo pacman -Syu
-#+end_example
-
-Many ARCHAOS packages are configuration files. Those packages install their config files to /etc/archaos since we don't want to overwrite your config files accidentally.  If you want to use the updated configs, then you need to manually copy the configs from /etc/archaos into $HOME.
 
 * Check that user is NOT root!
 Don't run this script as root!  This is done for safety reasons.  This script makes a lot of changes to the $HOME of the $USER of this script.  For obvious reasons, we want $USER to not be 'root' and $HOME not to be '/root'.  Instead, run this script as a normal user.  You will be asked to enter a sudo password at several points during the installation.
