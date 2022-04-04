@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Get output file as argument or fall back to `archaos`.
+of="$1"
+[ -z "$1" ] && of='archaos'
+
+# Write shebang in script
+echo "
+#!/usr/bin/env bash
+#  ____           _           _ 
+# |  _ \    ___  (_) __   __ (_)	David González (deivi)
+# | | | |  / _ \ | | \ \ / / | |  github.com/deivi98
+# | |_| | |  __/ | |  \ V /  | |  
+# |____/   \___| |_|   \_/   |_|
+#
+" > "$of"
+
+# Extract all '#+begin/end_src' blocks from README.org and append them to file;
+awk '/^#\+begin_src/{flag=1;next}/^#\+end_src/{flag=0;print ""}flag' \
+    README.org | head -n -1 >> "$of"
+
+# Make the new file executable
+chmod +x "$of" 
+
