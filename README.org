@@ -4,6 +4,8 @@
 #+PROPERTY: header-args :tangle archaos
 #+STARTUP: showeverything
 
+[[https://i.imgur.com/LunUaax.jpg]]
+
 * TABLE OF CONTENTS :toc:
 - [[#about-archaos][About ARCHAOS]]
 - [[#installing-archaos][Installing ARCHAOS]]
@@ -20,7 +22,6 @@
 * About ARCHAOS
 #+CAPTION: ARCHAOS Scrot
 #+ATTR_HTML: :alt ARCHAOS scrot :title ARCHAOS Scrot :align left
-[[https://i.imgur.com/LunUaax.jpg]]
 
 ARCHAOS is my own post-installation script. It deploys my WMs and configs. ARCHAOS should work on Arch Linux or any Arch-based distribution. ARCHAOS is only for x86_64 architecture and will not work on ARM devices such as the Raspberry Pi.
 
