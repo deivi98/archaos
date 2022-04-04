@@ -4,7 +4,9 @@
 #+PROPERTY: header-args :tangle archaos
 #+STARTUP: showeverything
 
-[[https://i.imgur.com/LunUaax.jpg]]
+[[https://i.imgur.com/hXbMPD0.png]]
+[[https://i.imgur.com/ad8MbP5.png]]
+[[https://i.imgur.com/HRh3kV9.png]]
 
 * TABLE OF CONTENTS :toc:
 - [[#about-archaos][About ARCHAOS]]
