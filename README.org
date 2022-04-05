@@ -197,8 +197,8 @@ if dialog --colors --title "Clone and install dotfiles" --yes-label "Install" --
   info "Installing dotfiles..."
 
   info "Creating .config backup"
-  [ ! -d ~/.config ] && mkdir ~/.config
   [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
+  [ ! -d ~/.config ] && mkdir ~/.config
 
   info "Cloning dotfiles repo"
   [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
