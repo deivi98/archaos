@@ -42,7 +42,7 @@ info "Syncing repos..."
 sudo pacman --noconfirm --needed -Syu || error "Error when syncing the repos."
 sucess "Repos synced"
 
-SCRIPT_DEPENDENCIES="dialog grep"
+SCRIPT_DEPENDENCIES="dialog grep sed"
 info "Installing script dependencies..."
 sudo pacman --noconfirm --needed -Syu $SCRIPT_DEPENDENCIES || error "Error installing script dependencies."
 success "Script dependencies installed"
