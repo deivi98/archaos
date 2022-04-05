@@ -70,12 +70,12 @@ dialog --colors --title "Install packages" --yes-label "Install" --no-label "Exi
 
 # Install packages
 info "Installing packages..."
-# sudo pacman --needed --ask 4 -Sy $packagelist || error "Error when installing packages, please check the output log"
+sudo pacman --needed --ask 4 -Sy $packagelist || error "Error when installing packages, please check the output log"
 success "Packages installed"
 
 # Install yay
 info "Installing yay..."
-# git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~ && rm -rf ~/yay || error "Error when installing Yay."
+git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~ && rm -rf ~/yay || error "Error when installing Yay."
 success "Yay installed"
 
 
@@ -87,7 +87,7 @@ dialog --colors --title "Install AUR packages" --yes-label "Install" --no-label 
 
 # Install AUR packages
 info "Installing AUR packages..."
-# yay --needed --noconfirm -Sy $aurpackagelist || error "Error when installing AUR packages, please check the output log"
+yay --needed --noconfirm -Sy $aurpackagelist || error "Error when installing AUR packages, please check the output log"
 success "AUR packages installed"
 
 info "Asking user to install Lunar Vim..."
@@ -97,13 +97,13 @@ if dialog --colors --title "Install editor (Lunar Vim)" --yes-label "Yes, instal
   info "Installing Lunar Vim..."
   # Lunar Vim dependencies
   info "Intalling Lunar Vim dependencies..."
-  # sudo pacman --needed --ask 4 -Sy neovim nodejs npm python-pip cargo || error "Error installing Lunar Vim dependencies."
+  sudo pacman --needed --ask 4 -Sy neovim nodejs npm python-pip cargo || error "Error installing Lunar Vim dependencies."
   sucess "Lunar Vim dependencies installed"
 
   # Lunar Vim installation script
   info "Running Lunar Vim installation script..."
-  # export npm_config_prefix="$HOME/.local"
-  # curl https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh | bash -s -- --yes --overwrite || error "Error installing Lunar Vim, please check the output"
+  export npm_config_prefix="$HOME/.local"
+  curl https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh | bash -s -- --yes --overwrite || error "Error installing Lunar Vim, please check the output"
   success "Lunar Vim installed"
 else
   info "Skipping Lunar Vim installation"
@@ -113,22 +113,22 @@ if dialog --colors --title "Clone and install dotfiles" --yes-label "Install" --
   info "Installing dotfiles..."
 
   info "Creating .config backup"
-  # [ ! -d ~/.config ] && mkdir ~/.config
-  # [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
+  [ ! -d ~/.config ] && mkdir ~/.config
+  [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
 
   info "Cloning dotfiles repo"
-  # [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
+  [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
 
   info "Copying dotfiles into home directory"
-  # [ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
+  [ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
 
   info "Removing installation files"
-  # rm -rf ~/.git
-  # rm -rf ~/dotfiles
+  rm -rf ~/.git
+  rm -rf ~/dotfiles
 
   info "Making scripts executable"
-  # [ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
-  # [ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
+  [ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
+  [ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
 
   success "Dotfiles installed"
 else
