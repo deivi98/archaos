@@ -8,7 +8,7 @@
 [[https://i.imgur.com/ad8MbP5.png]]
 [[https://i.imgur.com/HRh3kV9.png]]
 
-* TABLE OF CONTENTS :toc:
+* Table of contents :toc:
 - [[#about-archaos][About ARCHAOS]]
 - [[#installing-archaos][Installing ARCHAOS]]
 - [[#check-user-is-not-root][Check user is NOT root!]]
@@ -25,15 +25,13 @@
 #+CAPTION: ARCHAOS Scrot
 #+ATTR_HTML: :alt ARCHAOS scrot :title ARCHAOS Scrot :align left
 
-ARCHAOS is my own post-installation script. It deploys my WMs and configs. ARCHAOS should work on Arch Linux or any Arch-based distribution. ARCHAOS is only for x86_64 architecture and will not work on ARM devices such as the Raspberry Pi.
+ARCHAOS is my own post-installation script. It deploys my personal set of packages, apps and dotfiles. ARCHAOS should work on Arch Linux or any x64 Arch-based distribution.
 
 * Installing ARCHAOS
-To install ARCHAOS, you need to clone this repository and run the ~archaos~ script.
-#+begin_example
-git clone https://github.com/deivi98/archaos
-cd archaos/
-./archaos
-#+end_example
+To install, you need to clone this repository and run the ~archaos~ script.
+1. Clone this repo `git clone https://github.com/deivi98/archaos`
+2. Go into directory `cd archaos`
+3. Execute script `./archaos`
 
 * Check user is not root
 #+begin_src bash
