@@ -27,6 +27,8 @@
 
 ARCHAOS is my own post-installation script. It deploys my personal set of packages, apps and dotfiles. ARCHAOS should work on Arch Linux or any x64 Arch-based distribution.
 
+A brief summary of my selection is available in my [[dotfiles][https://github.com/deivi98/dotfiles]] repo.
+
 * Installing ARCHAOS
 To install, you need to clone this repository and run the ~archaos~ script.
 1. Clone this repo =git clone https://github.com/deivi98/archaos=
