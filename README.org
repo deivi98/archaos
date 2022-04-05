@@ -29,9 +29,9 @@ ARCHAOS is my own post-installation script. It deploys my personal set of packag
 
 * Installing ARCHAOS
 To install, you need to clone this repository and run the ~archaos~ script.
-1. Clone this repo `git clone https://github.com/deivi98/archaos`
-2. Go into directory `cd archaos`
-3. Execute script `./archaos`
+1. Clone this repo =git clone https://github.com/deivi98/archaos=
+2. Go into directory =cd archaos=
+3. Execute script =./archaos=
 
 * Check user is not root
 #+begin_src bash
