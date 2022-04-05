@@ -5,8 +5,7 @@ of="$1"
 [ -z "$1" ] && of='archaos'
 
 # Write shebang in script
-echo "
-#!/usr/bin/env bash
+echo "#!/usr/bin/env bash
 #  ____           _           _ 
 # |  _ \    ___  (_) __   __ (_)	David González (deivi)
 # | | | |  / _ \ | | \ \ / / | |  github.com/deivi98
