@@ -10,16 +10,17 @@
 
 * Table of contents :toc:
 - [[#about-archaos][About ARCHAOS]]
-- [[#installing-archaos][Installing ARCHAOS]]
-- [[#check-user-is-not-root][Check user is NOT root!]]
-- [[#a-function-for-errors][A function for errors]]
-- [[#sync-the-repos-and-install-dialog][Sync the repos and install 'dialog']]
-- [[#welcome-message][Welcome message]]
-- [[#asking-user-to-confirm-choice-to-install-archaos][Asking user to confirm choice to install ARCHAOS.]]
-- [[#install-the-packages-from-repositories][Install the packages from repositories]]
-- [[#install-lunar-vim][Install Lunar Vim]]
-- [[#copy-configs-over-from-etcarchaos-into-home][Copy configs over from /etc/archaos into $HOME]]
-- [[#message-stating-that-the-installation-is-complete][Message stating that the installation is complete!]]
+- [[#installation][Installation]]
+- [[#script][Script]]
+  - [[#check-user-is-not-root][Check user is NOT root!]]
+  - [[#a-function-for-errors][A function for errors]]
+  - [[#sync-the-repos-and-install-dialog][Sync the repos and install 'dialog']]
+  - [[#welcome-message][Welcome message]]
+  - [[#asking-user-to-confirm-choice-to-install-archaos][Asking user to confirm choice to install ARCHAOS.]]
+  - [[#install-the-packages-from-repositories][Install the packages from repositories]]
+  - [[#install-lunar-vim][Install Lunar Vim]]
+  - [[#copy-configs-over-from-etcarchaos-into-home][Copy configs over from /etc/archaos into $HOME]]
+  - [[#message-stating-that-the-installation-is-complete][Message stating that the installation is complete!]]
 
 * About ARCHAOS
 #+CAPTION: ARCHAOS Scrot
@@ -27,15 +28,17 @@
 
 ARCHAOS is my own post-installation script. It deploys my personal set of packages, apps and dotfiles. ARCHAOS should work on Arch Linux or any x64 Arch-based distribution.
 
-A brief summary of my selection is available in my [[dotfiles][https://github.com/deivi98/dotfiles]] repo.
+A brief summary of my selection is available at my [[https://github.com/deivi98/dotfiles][dotfiles]] repo.
 
-* Installing ARCHAOS
+* Installation
 To install, you need to clone this repository and run the ~archaos~ script.
 1. Clone this repo =git clone https://github.com/deivi98/archaos=
 2. Go into directory =cd archaos=
 3. Execute script =./archaos=
 
-* Check user is not root
+* Script
+
+** Check user is not root
 #+begin_src bash
 
 if [ "$(id -u)" = 0 ]; then
@@ -49,14 +52,14 @@ fi
 
 #+end_src
 
-* A function for errors
+** A function for errors
 #+begin_src bash
 error() { \
     clear; printf "ERROR:\\n%s\\n" "$1" >&2; exit 1;
 }
 #+end_src
 
-* Sync the repos and install 'dialog'
+** Sync the repos and install 'dialog'
 #+begin_src bash
 echo "################################################################"
 echo "## Syncing the repos and installing 'dialog' if not installed ##"
@@ -64,7 +67,7 @@ echo "################################################################"
 sudo pacman --noconfirm --needed -Syu dialog || error "Error syncing the repos."
 #+end_src
 
-* Welcome message
+** Welcome message
 #+begin_src bash
 welcome() { \
     dialog --colors --title "\Z7\ZbInstalling ARCHAOS!" --msgbox "\Z4This script will install all Deivi's packages and dotfiles." 16 60
@@ -75,7 +78,7 @@ welcome() { \
 welcome || error "User choose to exit."
 #+end_src
 
-* Asking user to confirm choice to install ARCHAOS.
+** Asking user to confirm choice to install ARCHAOS.
 #+begin_src bash
 lastchance() { \
     dialog --colors --title "\Z7\ZbInstalling ARCHAOS!" --msgbox "\Z4WARNING! The ARCHAOS installation script is currently in public beta testing. There are almost certainly errors in it; therefore, it is strongly recommended that you not install this on production machines. It is recommended that you try this out in either a virtual machine or on a test machine." 16 60
@@ -88,7 +91,7 @@ lastchance || error "User choose to exit."
 
 
 
-* Install the packages from repositories
+** Install the packages from repositories
 All packages listed are either in the standard Arch repos. All of these will be installed using pacman.
 
 =NOTE:= The '--ask 4' option is an undocumented option for pacman that can be found in pacman's source code (in pacman's alpm.h).  Adding this flags means that all questions about removing packages that are conflicts will automatically be answered YES.
@@ -110,7 +113,7 @@ rm -rf ~/yay
 cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep AUR/ | sed --expression='s/AUR\///g' | yay --needed --noconfirm -Sy -
 #+end_src
 
-* Install Lunar Vim
+** Install Lunar Vim
 #+begin_src bash
 echo "########################################################"
 echo "## Installing Lunar Vim. This may take a few minutes. ##"
@@ -120,7 +123,7 @@ export npm_config_prefix="$HOME/.local"
 bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 #+end_src
 
-* Copy configs over from /etc/archaos into $HOME
+** Copy configs over from /etc/archaos into $HOME
 #+begin_src bash
 echo "####################################################"
 echo "## Copying ARCHAOS configuration files into \$HOME ##"
@@ -139,7 +142,7 @@ rm -rf ~/dotfiles
 [ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
 #+end_src
 
-* Message stating that the installation is complete!
+** Message stating that the installation is complete!
 #+begin_src bash
 echo "#################################"
 echo "## ARCHAOS has been installed! ##"
