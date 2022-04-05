@@ -92,7 +92,7 @@ sucess "Repos synced"
 This script prompts with dialog gui interfaces. Some dependencies are needed for this
 
 #+begin_src bash
-SCRIPT_DEPENDENCIES="dialog grep"
+SCRIPT_DEPENDENCIES="dialog grep sed"
 info "Installing script dependencies..."
 sudo pacman --noconfirm --needed -Syu $SCRIPT_DEPENDENCIES || error "Error installing script dependencies."
 success "Script dependencies installed"
