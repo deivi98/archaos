@@ -1,8 +1,8 @@
 # Boot
 linux
 linux-headers
-linux-zen
-linuz-zen-headers
+# linux-zen
+# linuz-zen-headers
 
 # Package managing
 pacman-contrib
