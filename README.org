@@ -11,16 +11,20 @@
 * Table of contents :toc:
 - [[#about-archaos][About ARCHAOS]]
 - [[#installation][Installation]]
-- [[#script][Script]]
+- [[#script-contents][Script contents]]
+  - [[#error-logging-and-success-functions][Error, logging and success functions]]
   - [[#check-user-is-not-root][Check user is NOT root!]]
-  - [[#a-function-for-errors][A function for errors]]
-  - [[#sync-the-repos-and-install-dialog][Sync the repos and install 'dialog']]
+  - [[#sync-repos][Sync repos]]
+  - [[#install-script-dependencies][Install script dependencies]]
   - [[#welcome-message][Welcome message]]
-  - [[#asking-user-to-confirm-choice-to-install-archaos][Asking user to confirm choice to install ARCHAOS.]]
-  - [[#install-the-packages-from-repositories][Install the packages from repositories]]
+  - [[#acknowledgement-and-summary][Acknowledgement and summary]]
+  - [[#install-packages][Install packages]]
+  - [[#install-yay][Install Yay]]
+  - [[#install-aur-packages][Install AUR packages]]
   - [[#install-lunar-vim][Install Lunar Vim]]
-  - [[#copy-configs-over-from-etcarchaos-into-home][Copy configs over from /etc/archaos into $HOME]]
-  - [[#message-stating-that-the-installation-is-complete][Message stating that the installation is complete!]]
+  - [[#install-dotfiles][Install dotfiles]]
+  - [[#install-additional-apps][Install additional apps]]
+  - [[#installation-complete][Installation complete]]
 
 * About ARCHAOS
 #+CAPTION: ARCHAOS Scrot
@@ -36,125 +40,196 @@ To install, you need to clone this repository and run the ~archaos~ script.
 2. Go into directory =cd archaos=
 3. Execute script =./archaos=
 
-* Script
+* Script contents
+Step by step building of the installation script.
+
+** Error, logging and success functions
+#+begin_src bash
+
+# Declaring a cool nice looking error function
+error() {
+  printf "\e[31m┌────────────────────────────┤ ERROR ├────────────────────────────┐\n"
+
+  readarray -t arr < <(fold -w63 <<< "$1")
+
+  for i in "${arr[@]}"
+  do
+    printf "│\e[0m %-63s \e[31m│\n" "$i"
+  done
+
+  printf "\e[31m└─────────────────────────────────────────────────────────────────┘\n"
+  exit 1
+}
+
+info() {
+  printf "\e[33m[INFO]\e[0m $1\n" 
+}
+
+success() {
+  printf "\e[32m[SUCCESS]\e[0m $1\n" 
+}
+
+#+end_src
 
 ** Check user is not root
 #+begin_src bash
 
+# Checking that user is not root
 if [ "$(id -u)" = 0 ]; then
-    echo "##################################################################"
-    echo "This script MUST NOT be run as root user since it makes changes"
-    echo "to the \$HOME directory of the \$USER executing this script."
-    echo "You will be asked for a sudo password when necessary."
-    echo "##################################################################"
-    exit 1
+    error "This script cannot be run as root user since it makes changes to your \$HOME directory. You will be asked for a sudo password when neccessary."
 fi
 
 #+end_src
 
-** A function for errors
+** Sync repos
 #+begin_src bash
-error() { \
-    clear; printf "ERROR:\\n%s\\n" "$1" >&2; exit 1;
-}
+info "Syncing repos..."
+sudo pacman --noconfirm --needed -Syu || error "Error when syncing the repos."
+sucess "Repos synced"
 #+end_src
 
-** Sync the repos and install 'dialog'
+** Install script dependencies
+This script prompts with dialog gui interfaces. Some dependencies are needed for this
+
 #+begin_src bash
-echo "################################################################"
-echo "## Syncing the repos and installing 'dialog' if not installed ##"
-echo "################################################################"
-sudo pacman --noconfirm --needed -Syu dialog || error "Error syncing the repos."
+SCRIPT_DEPENDENCIES="dialog grep"
+info "Installing script dependencies..."
+sudo pacman --noconfirm --needed -Syu $SCRIPT_DEPENDENCIES || error "Error installing script dependencies."
+success "Script dependencies installed"
 #+end_src
 
 ** Welcome message
+Just a fancy welcome message
+
 #+begin_src bash
-welcome() { \
-    dialog --colors --title "\Z7\ZbInstalling ARCHAOS!" --msgbox "\Z4This script will install all Deivi's packages and dotfiles." 16 60
-
-    dialog --colors --title "\Z7\ZbStay near your computer!" --yes-label "Continue" --no-label "Exit" --yesno "\Z4This script is not allowed to be run as root, but you will be asked to enter your sudo password at various points during this installation. This is to give PACMAN the necessary permissions to install the software.  So stay near the computer." 8 60
-}
-
-welcome || error "User choose to exit."
+# Welcome dialog
+dialog --colors --title "ARCHAOS Welcome" --msgbox "Welcome to ARCHAOS post installation script. It deploys my personal set of packages, apps and dotfiles. ARCHAOS should work on Arch Linux or any x64 Arch-based distribution." 10 60
+clear
 #+end_src
 
-** Asking user to confirm choice to install ARCHAOS.
+** Acknowledgement and summary
+Ensures the user to be responsible for the execution of the script and warns possible negative impact.
+
 #+begin_src bash
-lastchance() { \
-    dialog --colors --title "\Z7\ZbInstalling ARCHAOS!" --msgbox "\Z4WARNING! The ARCHAOS installation script is currently in public beta testing. There are almost certainly errors in it; therefore, it is strongly recommended that you not install this on production machines. It is recommended that you try this out in either a virtual machine or on a test machine." 16 60
-
-    dialog --colors --title "\Z7\ZbAre You Sure You Want To Do This?" --yes-label "Begin Installation" --no-label "Exit" --yesno "\Z4Shall we begin installing ARCHAOS?" 8 60 || { clear; exit 1; }
-}
-
-lastchance || error "User choose to exit."
+# Acknowledgement
+info "Asking user for acknowledgement"
+dialog --colors --title "Acknowledgement" --yes-label "Continue" --no-label "Exit" --yesno "By running this script you acknowledge you are entirely responsible for the impact it could have in your machine. This script is design to be executed in a virgin Arch-based OS as a post installation. It could delete/overwrite your personal config files otherwise. Please use at your own risk." 10 60 || { clear; exit 1; }
+clear
+success "Acknowledgement done"
+# Summary
+dialog --colors --title "Installation" --yes-label "Begin installation" --no-label "Cancel" --yesno "The following steps will be followed:\n1. Install packages\n2. Install Yay\n3. Install AUR Packages\n4. Install editor (Lunar Vim)\n5. Clone and install dotfiles\n6. Install additional apps" 13 60 || { clear; exit 1; }
+clear
+info "Begining installation..."
 #+end_src
 
-
-
-** Install the packages from repositories
-All packages listed are either in the standard Arch repos. All of these will be installed using pacman.
-
-=NOTE:= The '--ask 4' option is an undocumented option for pacman that can be found in pacman's source code (in pacman's alpm.h).  Adding this flags means that all questions about removing packages that are conflicts will automatically be answered YES.
+** Install packages
+Previews and install a list of my preferred packages from the Arch official repos.
 
 #+begin_src bash
+# Extract all official packages from archaos.pkgs file
+packagelist=$(cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep -v "AUR/")
 
-sudo pacman --needed --ask 4 -Sy grep cat
+# Preview all packages to install
+dialog --colors --title "Install packages" --yes-label "Install" --no-label "Exit" --yesno "The following packages will be installed from the official Arch repos:\n\n$packagelist" 15 80 || { clear; exit 1; }
 
-# Let's install each package listed in the archaos.pkgs file.
-cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep -v "AUR/" | sudo pacman --needed --ask 4 -Sy -
+# Install packages
+info "Installing packages..."
+sudo pacman --needed --ask 4 -Sy $packagelist || error "Error when installing packages, please check the output log"
+success "Packages installed"
+#+end_src
 
-git clone https://aur.archlinux.org/yay.git ~/yay
-cd ~/yay
-makepkg -si --needed --noconfirm
-cd ..
-rm -rf ~/yay
+** Install Yay
+Some of the packages I use are only available in the AUR repository. To install them, we need to ensure Yay is installed.
 
-# Let's install AUR packages from archaos.pkgs file.
-cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep AUR/ | sed --expression='s/AUR\///g' | yay --needed --noconfirm -Sy -
+#+begin_src bash
+# Install yay
+info "Installing yay..."
+git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~ && rm -rf ~/yay || error "Error when installing Yay."
+success "Yay installed"
+
+#+end_src
+
+** Install AUR packages
+#+begin_src bash
+# Extract all AUR packages from archaos.pkgs file
+aurpackagelist=$(cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep AUR/ | sed --expression='s/AUR\///g')
+
+# Preview all packages to install
+dialog --colors --title "Install AUR packages" --yes-label "Install" --no-label "Exit" --yesno "The following packages will be installed from the AUR repos:\n\n$aurpackagelist" 15 80 || { clear; exit 1; }
+
+# Install AUR packages
+info "Installing AUR packages..."
+yay --needed --noconfirm -Sy $aurpackagelist || error "Error when installing AUR packages, please check the output log"
+success "AUR packages installed"
 #+end_src
 
 ** Install Lunar Vim
+Optional installation of [[https://www.lunarvim.org/][Lunar Vim]] as editor.
+
 #+begin_src bash
-echo "########################################################"
-echo "## Installing Lunar Vim. This may take a few minutes. ##"
-echo "########################################################"
-sudo pacman --needed --ask 4 -Sy neovim nodejs npm python-pip cargo
-export npm_config_prefix="$HOME/.local"
-bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+info "Asking user to install Lunar Vim..."
+# Ask for confirmation
+if dialog --colors --title "Install editor (Lunar Vim)" --yes-label "Yes, install" --no-label "No, skip" --yesno "Do you want to install Lunar Vim as editor? Lunar Vim is an extensive configuration of Neovim.\n\nMore can be found at https://www.lunarvim.org/" 10 60; then
+
+  info "Installing Lunar Vim..."
+  # Lunar Vim dependencies
+  info "Intalling Lunar Vim dependencies..."
+  sudo pacman --needed --ask 4 -Sy neovim nodejs npm python-pip cargo || error "Error installing Lunar Vim dependencies."
+  sucess "Lunar Vim dependencies installed"
+
+  # Lunar Vim installation script
+  info "Running Lunar Vim installation script..."
+  export npm_config_prefix="$HOME/.local"
+  curl https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh | bash -s -- --yes --overwrite || error "Error installing Lunar Vim, please check the output"
+  success "Lunar Vim installed"
+else
+  info "Skipping Lunar Vim installation"
+fi
 #+end_src
 
-** Copy configs over from /etc/archaos into $HOME
+** Install dotfiles
+Download and install [[https://github.com/deivi98/dotfiles][my dotfiles]]. It also creates a backup of previous .config folder.
+
+NOTE: All files copied that are NOT in .config will be overwritten without any backup.
+
 #+begin_src bash
-echo "####################################################"
-echo "## Copying ARCHAOS configuration files into \$HOME ##"
-echo "####################################################"
-[ ! -d ~/.config ] && mkdir ~/.config
-[ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
-[ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
-[ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
-rm -rf ~/.git
-rm -rf ~/dotfiles
+if dialog --colors --title "Clone and install dotfiles" --yes-label "Install" --no-label "No, skip" --yesno "Do you want to clone and install Deivi's dotfiles? They will be downloaded and copied into your home directory.\n\nMore about them at https://github.com/deivi98/dotfiles" 10 60; then
+  info "Installing dotfiles..."
+
+  info "Creating .config backup"
+  [ ! -d ~/.config ] && mkdir ~/.config
+  [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
+
+  info "Cloning dotfiles repo"
+  [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
+
+  info "Copying dotfiles into home directory"
+  [ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
+
+  info "Removing installation files"
+  rm -rf ~/.git
+  rm -rf ~/dotfiles
+
+  info "Making scripts executable"
+  [ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
+  [ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
+
+  success "Dotfiles installed"
+else
+  info "Skipping dotfiles installation"
+fi
+
 #+end_src
 
-#+begin_src bash
-# Change all scripts in .local/bin and .config/scripts to be executable.
-[ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
-[ -d ~/.local/bin ] && chmod -R +x ~/.local/bin
-#+end_src
+** Install additional apps
+To-do
 
-** Message stating that the installation is complete!
+** Installation complete
 #+begin_src bash
-echo "#################################"
-echo "## ARCHAOS has been installed! ##"
-echo "#################################"
-
-while true; do
-    read -p "Do you want to reboot to get your archaos? [Y/n] " yn
-    case $yn in
-        [Yy]* ) reboot;;
-        [Nn]* ) break;;
-        "" ) reboot;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+if dialog --colors --title "Installation complete" --yes-label "Reboot" --no-label "No, skip" --yesno "Congratulations! ARCHAOS has been installed in your system. Enjoy! :)" 10 60; then
+  reboot
+else
+  clear
+  exit 0
+fi
 #+end_src
