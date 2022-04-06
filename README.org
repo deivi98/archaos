@@ -36,7 +36,7 @@ A brief summary of my selection is available at my [[https://github.com/deivi98/
 
 * Installation
 To install, you need to clone this repository and run the ~archaos~ script.
-1. Clone this repo =git clone https://github.com/deivi98/archaos=
+1. Clone this repo =git clone https://github.com/deivi98/archaos ~/archaos=
 2. Go into directory =cd archaos=
 3. Execute script =./archaos=
 
@@ -144,7 +144,7 @@ Some of the packages I use are only available in the AUR repository. To install 
 #+begin_src bash
 # Install yay
 info "Installing yay..."
-git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~ && rm -rf ~/yay || error "Error when installing Yay."
+git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~/archaos && rm -rf ~/yay || error "Error when installing Yay."
 success "Yay installed"
 
 #+end_src

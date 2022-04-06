@@ -74,7 +74,7 @@ success "Packages installed"
 
 # Install yay
 info "Installing yay..."
-git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~ && rm -rf ~/yay || error "Error when installing Yay."
+git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -si --needed --noconfirm && cd ~/archaos && rm -rf ~/yay || error "Error when installing Yay."
 success "Yay installed"
 
 
@@ -112,8 +112,8 @@ if dialog --colors --title "Clone and install dotfiles" --yes-label "Install" --
   info "Installing dotfiles..."
 
   info "Creating .config backup"
-  [ ! -d ~/.config ] && mkdir ~/.config
   [ -d ~/.config ] && mkdir ~/.config-backup-$(date +%Y.%m.%d-%H%M) && cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H%M)
+  [ ! -d ~/.config ] && mkdir ~/.config
 
   info "Cloning dotfiles repo"
   [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
