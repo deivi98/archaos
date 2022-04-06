@@ -201,14 +201,12 @@ if dialog --colors --title "Clone and install dotfiles" --yes-label "Install" --
   [ ! -d ~/.config ] && mkdir ~/.config
 
   info "Cloning dotfiles repo"
-  [ ! -d ~/dotfiles ] && git clone https://github.com/deivi98/dotfiles ~/dotfiles
+  [ ! -d ~/.config/dotfiles ] && git clone --bare https://github.com/deivi98/dotfiles ~/.config/dotfiles
+
+  git --git-dir=$HOME/.config/dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
   info "Copying dotfiles into home directory"
-  [ -d ~/dotfiles ] && cd ~/dotfiles && cp -Rf . ~ && cd -
-
-  info "Removing installation files"
-  rm -rf ~/.git
-  rm -rf ~/dotfiles
+  git --git-dir=$HOME/.config/dotfiles/ --work-tree=$HOME checkout -f
 
   info "Making scripts executable"
   [ -d ~/.config/scripts ] && chmod -R +x ~/.config/scripts
