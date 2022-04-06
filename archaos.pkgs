@@ -2,7 +2,7 @@
 linux
 linux-headers
 # linux-zen
-# linuz-zen-headers
+# linux-zen-headers
 
 # Package managing
 pacman-contrib
@@ -134,7 +134,7 @@ unrar
 # steam
 # AUR/proton
 # AUR/minecraft-launcher
-# AUR/spigotm
+# AUR/spigot
 
 ## Hardware
 

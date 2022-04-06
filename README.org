@@ -23,7 +23,9 @@
   - [[#install-aur-packages][Install AUR packages]]
   - [[#install-lunar-vim][Install Lunar Vim]]
   - [[#install-dotfiles][Install dotfiles]]
-  - [[#install-additional-apps][Install additional apps]]
+  - [[#install-additional-packages][Install additional packages]]
+  - [[#install-apps][Install apps]]
+  - [[#install-apps-aur][Install apps (AUR)]]
   - [[#installation-complete][Installation complete]]
 
 * About ARCHAOS
@@ -219,8 +221,86 @@ fi
 
 #+end_src
 
-** Install additional apps
-To-do
+** Install additional packages
+A set of optional useful packages you might want to install depending on the hardware and use case.
+
+#+begin_src bash
+
+# Prepares sections and packages
+gaming_kernel="linux-zen linux-zen-headers"
+nvidia_drivers="nvidia nvidia-utils lib32-nvidia-utils nvidia-settings"
+redshift="redshift"
+bluetooth="bluez bluez-utils"
+peripherals="libratbag piper"
+
+result=(dialog --colors --title "Additional packages" --separate-output --ok-label "Install" --cancel-label "No, skip" --checklist "Some packages you might be interested in installing" 0 0 0)
+
+# Builds packages into options
+options=("$gaming_kernel" "Gaming kernel" off 
+  "$nvidia_drivers" "Nvidia drivers" off
+  "$redshift" "Eye caring" off
+  "$bluetooth" "Bluetooth" off
+  "$peripherals" "Peripherals" off)
+
+# Prompts dialog to user
+selections=$("${result[@]}" "${options[@]}" 2>&1 >/dev/tty)
+clear
+
+# Install selections
+info "Installing additional packages..."
+[[ ! -z "$selections" ]] && sudo pacman --needed --noconfirm -Sy $selections || error "Error installing additional packages."
+success "Additional packages installed"
+#+end_src
+
+** Install apps
+A set of typical user applications you might be insterested in using.
+
+#+begin_src bash
+
+result=(dialog --colors --title "Additional apps" --separate-output --ok-label "Install" --cancel-label "No, skip" --checklist "Some apps you might want to install" 0 0 0)
+
+# Builds packages into options
+options=("nextcloud-client" "Nextcloud Sync" off 
+  "telegram-desktop" "Telegram" off
+  "discord" "Discord" off
+  "steam" "Steam" off
+  "transmission-gtk" "Torrent downloader" off
+  "virtualbox virtualbox-host-dkms" "Virtual Box" off)
+
+# Prompts dialog to user
+selections=$("${result[@]}" "${options[@]}" 2>&1 >/dev/tty)
+clear
+
+# Install selections
+info "Installing additional apps..."
+[[ ! -z "$selections" ]] && sudo pacman --needed --noconfirm -Sy $selections || error "Error installing additional apps."
+success "Additional apps installed"
+#+end_src
+
+** Install apps (AUR)
+Some user apps are available just in the AUR repository.
+
+#+begin_src bash
+
+result=(dialog --colors --title "Additional AUR apps" --separate-output --ok-label "Install" --cancel-label "No, skip" --checklist "Some apps are available just in the AUR repos, pick the ones you want to install" 0 0 0)
+
+# Builds packages into options
+options=("mailspring" "Mail client" off 
+  "plex-media-player" "Plex TV" off
+  "srain" "IRC client" off
+  "proton" "Steam wine emulator" off
+  "spigot" "Minecraft server" off
+  "minecraft-launcher" "Minecraft" off)
+
+# Prompts dialog to user
+selections=$("${result[@]}" "${options[@]}" 2>&1 >/dev/tty)
+clear
+
+# Install selections
+info "Installing additional AUR apps..."
+[[ ! -z "$selections" ]] && yay --needed --noconfirm -Sy $selections || error "Error installing additional AUR apps."
+success "Additional AUR apps installed"
+#+end_src
 
 ** Installation complete
 #+begin_src bash
