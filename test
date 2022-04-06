@@ -1,0 +1,4 @@
+#!/bin/bash
+
+aurpackagelist=$(cat archaos.pkgs | grep -v -e '^$' | grep -v "#" | grep AUR/ | sed --expression='s/AUR\///g')
+dialog --colors --title "Install AUR packages" --yes-label "Install" --no-label "Exit" --yesno "The following packages will be installed from the AUR repos:\n\n$aurpackagelist" 15 80 || { clear; exit 1; }
