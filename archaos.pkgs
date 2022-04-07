@@ -6,6 +6,7 @@ linux-headers
 
 # Package managing
 pacman-contrib
+AUR/informant
 
 # WM
 qtile
