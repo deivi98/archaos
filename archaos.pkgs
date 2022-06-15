@@ -123,6 +123,7 @@ seahorse
 openssh
 xbindkeys
 xcape
+xclip
 # docker
 # docker-compose
 
@@ -159,7 +160,11 @@ networkmanager
 
 # Sound
 alsa-utils
-pulseaudio
+pipewire
+lib32-pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
 pavucontrol
 # AUR/headsetcontrol
 # AUR/noise-supression-for-voice
