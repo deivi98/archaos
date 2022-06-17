@@ -149,7 +149,7 @@ lm_sensors
 # Graphics
 xorg
 xorg-xinit
-# nvidia-open-dkms
+# nvidia-dkms
 # nvidia-utils
 # lib32-nvidia-utils
 # nvidia-settings
