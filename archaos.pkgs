@@ -1,4 +1,4 @@
-# Boot
+#- Boot
 linux
 linux-headers
 # linux-zen
@@ -164,6 +164,8 @@ pipewire
 lib32-pipewire
 pipewire-alsa
 pipewire-pulse
+pipewire-jack
+jack
 wireplumber
 pavucontrol
 # AUR/headsetcontrol
